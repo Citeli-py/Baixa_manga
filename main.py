@@ -1,4 +1,3 @@
-from selenium import webdriver
 from PIL import Image
 import os, requests, time
 
@@ -24,7 +23,6 @@ def baixar(manga, cap):
             break
         i+=1
     manga = manga.split('/')[2]
-    print(manga)
     imgs[0].save(f'Mangas/{manga} {cap}.pdf', save_all=True, append_images=imgs[1:])
     
 
@@ -32,7 +30,7 @@ def baixar(manga, cap):
 def baixar_range(manga, inicio, fim):
     for i in range(fim-inicio+1):
         baixar(manga, inicio+i)
-        #print(f"Baixando capítulo {inicio+i}", end="\r")
+        print(f"Baixando capítulo {inicio+i}", end="\r")
 
 def gen_url(manga):
     manga = manga.replace(" ", "-").lower()
@@ -54,10 +52,19 @@ def gen_url(manga):
     
         
 def limpa():
-    #limpa a pasta imagens
-    pass
+    i = 0
+    while True:
+        try:
+            os.remove("Imagens/imagem_"+format(i)+".jpg")
+            i += 1
+        except:
+            break
 
 os.chdir(os.path.dirname(__file__))
 t0 = time.time()
-baixar_range(gen_url("Berserk"), 1, 1)
+manga = input("Qual manga deseja baixar? ")
+cap_inicial = int(input("Baixar de: "))
+cap_final = int(input("Até: "))
+baixar_range(gen_url(manga), cap_inicial, cap_final)
+limpa()
 print("\nTudo foi executado em "+ str(round(time.time()-t0, 2)) + " Segundos")
