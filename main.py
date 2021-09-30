@@ -24,8 +24,6 @@ def baixar(manga, cap):
         i+=1
     manga = manga.split('/')[2]
     imgs[0].save(f'Mangas/{manga} {cap}.pdf', save_all=True, append_images=imgs[1:])
-    
-
 
 def baixar_range(manga, inicio, fim):
     for i in range(fim-inicio+1):
@@ -49,8 +47,6 @@ def gen_url(manga):
         print("Manga não encontrado")
         exit()
 
-    
-        
 def limpa():
     i = 0
     while True:
@@ -60,7 +56,15 @@ def limpa():
         except:
             break
 
+def criar_pastas():
+    try:
+        os.makedirs("Imagens")
+        os.makedirs("Mangas")
+    except OSError:
+        pass
+
 os.chdir(os.path.dirname(__file__))
+criar_pastas()
 t0 = time.time()
 manga = input("Qual manga deseja baixar? ")
 cap_inicial = int(input("Baixar de: "))
