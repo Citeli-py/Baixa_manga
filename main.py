@@ -23,7 +23,8 @@ def baixar(manga, cap):
             break
         i+=1
     manga = manga.split('/')[2]
-    imgs[0].save(f'Mangas/{manga} {cap}.pdf', save_all=True, append_images=imgs[1:])
+    criar_pasta(f'Mangas/{manga}')
+    imgs[0].save(f'Mangas/{manga}/{manga} {cap}.pdf', save_all=True, append_images=imgs[1:])
 
 def baixar_range(manga, inicio, fim):
     for i in range(fim-inicio+1):
@@ -56,19 +57,20 @@ def limpa():
         except:
             break
 
-def criar_pastas():
+def criar_pasta(diretorio):
+    os.chdir(os.path.dirname(__file__))
     try:
-        os.makedirs("Imagens")
-        os.makedirs("Mangas")
+        os.makedirs(diretorio)
     except OSError:
         pass
 
-os.chdir(os.path.dirname(__file__))
-criar_pastas()
-t0 = time.time()
-manga = input("Qual manga deseja baixar? ")
-cap_inicial = int(input("Baixar de: "))
-cap_final = int(input("Até: "))
-baixar_range(gen_url(manga), cap_inicial, cap_final)
-limpa()
-print("\nTudo foi executado em "+ str(round(time.time()-t0, 2)) + " Segundos")
+if __name__ == "__main__":
+    criar_pasta('Imagens')
+    criar_pasta('Mangas')
+    t0 = time.time()
+    manga = input("Qual manga deseja baixar? ")
+    cap_inicial = int(input("Baixar de: "))
+    cap_final = int(input("Até: "))
+    baixar_range(gen_url(manga), cap_inicial, cap_final)
+    limpa()
+    print("\nTudo foi executado em "+ str(round(time.time()-t0, 2)) + " Segundos")
